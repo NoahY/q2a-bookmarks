@@ -197,7 +197,11 @@
 					'Q'
 				);
 				$idx=1;
-				while ( ($post=qa_db_read_one_assoc($query,true)) !== null ) {
+				$bms = explode(',',$bookmarks);
+				foreach ( $bms as $qid) {
+					$post = qa_db_select_with_pending(
+						qa_db_full_post_selectspec(null, $qid)
+					);
 					
 					$title=$post['title'];
 					$qid=$post['postid'];
