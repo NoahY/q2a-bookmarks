@@ -81,8 +81,8 @@
 				<script>
 					function ajaxBookmarkConfirm(bmd) {
 						jQuery('#ajax-bookmark-popup').remove();
-						if(bmd) jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
-						else jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_un_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
+						if(bmd) jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_opt('ajax_bookmark_popup_notice_text')."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
+						else jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_opt('ajax_bookmark_popup_un_notice_text')."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
 					}
 					function ajaxBookmark(qid,uid,bmd,row) {
 						var dataString = 'ajax_bookmark_qid='+qid+'&ajax_bookmark_uid='+uid+'&ajax_bookmarked='+bmd;
