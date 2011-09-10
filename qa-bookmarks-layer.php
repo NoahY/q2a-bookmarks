@@ -91,8 +91,7 @@
 							url: '".qa_self_html()."',  
 							data: dataString,  
 							success: function(data) {
-								data = data.substring(1);
-								if(/^###/.exec(data)) {
+								if(/^[\\t\\n ]*###/.exec(data)) {
 									var error = data.substring(4);
 									window.alert(error);
 								}
