@@ -20,7 +20,7 @@
 	
 		function head_custom()
 		{
-			if (qa_opt('bookmarks_plugin_enable') && $this->template == 'question') {
+			if (qa_opt('bookmarks_plugin_enable') && ($this->template == 'question' || $this->template == 'user')) {
 				$this->output_raw('
 				<style>
 					#bookmark:hover {
@@ -62,6 +62,20 @@
 						padding: 10px 0;
 						position:relative;
 					}
+					.bookmark-row-image{
+						background-image:url('.QA_HTML_THEME_LAYER_URLTOROOT.'unbookmarks.png);
+						float:left;
+						width:12px;
+						height:12px;
+						margin-right:5px;
+						cursor:pointer;
+					}
+					.bookmark-row {
+						padding:2px 0;
+					}
+					.bookmark-row-image:hover {
+						background-image:url('.QA_HTML_THEME_LAYER_URLTOROOT.'onbookmarks.png);
+					}
 				</style>');
 				$this->output_raw("
 				<script>
@@ -70,7 +84,7 @@
 						if(bmd) jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
 						else jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_un_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
 					}
-					function ajaxBookmark(qid,uid,bmd) {
+					function ajaxBookmark(qid,uid,bmd,row) {
 						var dataString = 'ajax_bookmark_qid='+qid+'&ajax_bookmark_uid='+uid+'&ajax_bookmarked='+bmd;
 						jQuery.ajax({  
 							type: 'POST',  
@@ -81,6 +95,18 @@
 								if(/^###/.exec(data)) {
 									var error = data.substring(4);
 									window.alert(error);
+								}
+								else if(row) {
+									jQuery('#bookmark-row-'+row).fadeOut('slow',function(){
+											jQuery('#bookmark-row-'+row).remove()
+											if(jQuery('.bookmark-row').length == 0) {
+												jQuery('#bookmarks_form').remove();
+												jQuery('#bookmark_title').parent().remove();
+											}
+											
+										}
+									);
+									ajaxBookmarkConfirm(bmd==false);
 								}
 								else{
 									jQuery('#bookmark').replaceWith(data);
@@ -166,23 +192,24 @@
 				if(!$bookmarks) return;
 				
 				
-				$output = '<div class="bookmarks-container">';
+				$output = '<div class="bookmarks_container">';
 				$query = qa_db_query_sub(
 					'SELECT title,postid FROM ^posts WHERE type=$ AND postid in ('.$bookmarks.')',
 					'Q'
 				);
+				$idx=1;
 				while ( ($post=qa_db_read_one_assoc($query,true)) !== null ) {
 					
 					$title=$post['title'];
-					$oid=$post['postid'];
+					$qid=$post['postid'];
 					
 					$length = 60;
 					
 					$text = (strlen($title) > $length ? substr($title,0,$length).'...' : $title);
 					
-					$output .= '<div class="bookmark-row"><a href="'.qa_path_html(qa_q_request($oid,$title),NULL,qa_opt('site_url')).'">'.$text.'</a></div>';
+					$output .= '<div class="bookmark-row" id="bookmark-row-'.$idx.'"><div class="bookmark-row-image bookmark" title="'.qa_html(qa_opt('bookmarks_plugin_unbookmark')).'" onclick="ajaxBookmark('.$qid.','.$uid.',true,'.($idx++).')"></div><a href="'.qa_path_html(qa_q_request($qid,$title),NULL,qa_opt('site_url')).'">'.$text.'</a></div>';
 				}
-				
+				$output.='</div>';
 				$fields['bookmarks'] = array(
 					'type' => 'static',
 					'label' => $output,
@@ -192,7 +219,9 @@
 				$form=array(
 					'style' => 'tall',
 					
-					'title' => qa_opt('bookmarks_plugin_title'),
+					'tags' => 'id="bookmarks_form"',
+					
+					'title' => '<a id="bookmark_title">'.qa_opt('bookmarks_plugin_title').'</a>',
 
 					'fields' => $fields,
 				);
@@ -210,7 +239,7 @@
 					$bookmarked = true;
 				}
 			}
-			$this->output_raw('<DIV onclick="ajaxBookmark('.$qid.','.$uid.','.($bookmarked?'true':'false').')" title="'.qa_opt('bookmarks_plugin_'.($bookmarked?'un':'').'bookmark').'" id="bookmark" class="'.($bookmarked?'un':'').'bookmark"></DIV>');
+			$this->output_raw('<DIV onclick="ajaxBookmark('.$qid.','.$uid.','.($bookmarked?'true':'false').')" title="'.qa_html(qa_opt('bookmarks_plugin_'.($bookmarked?'un':'').'bookmark')).'" id="bookmark" class="'.($bookmarked?'un':'').'bookmark"></DIV>');
 		}
 		
 		function get_bookmarks_for_user($uid) {
