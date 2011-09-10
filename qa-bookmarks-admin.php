@@ -12,6 +12,8 @@
 					return 'Unbookmark this question';
 				case 'ajax_bookmark_popup_notice_text':
 					return 'Question bookmarked.&nbsp; Visit your profile to see bookmarked questions.';
+				case 'ajax_bookmark_popup_un_notice_text':
+					return 'Bookmark removed.';
 				default:
 					return null;				
 			}
@@ -50,6 +52,8 @@
 				qa_opt('bookmarks_plugin_title',qa_post_text('bookmarks_plugin_title'));
 				qa_opt('bookmarks_plugin_bookmark',qa_post_text('bookmarks_plugin_bookmark'));
 				qa_opt('bookmarks_plugin_unbookmark',qa_post_text('bookmarks_plugin_unbookmark'));
+				qa_opt('ajax_bookmark_popup_notice_text',qa_post_text('ajax_bookmark_popup_notice_text'));
+				qa_opt('ajax_bookmark_popup_un_notice_text',qa_post_text('ajax_bookmark_popup_un_notice_text'));
 				$ok = qa_lang_html('admin/options_saved');
 			}
 			
@@ -80,6 +84,13 @@
 				'tags' => 'NAME="bookmarks_plugin_bookmark"',
 			);		   
 		  
+			$fields[] = array(
+				'label' => 'Unbookmark hover text',
+				'type' => 'text',
+				'value' => qa_html(qa_opt('bookmarks_plugin_unbookmark')),
+				'tags' => 'NAME="bookmarks_plugin_unbookmark"',
+			);		   
+
 				
 			$fields[] = array(
 				'label' => 'Bookmark notice text',
@@ -87,15 +98,15 @@
 				'value' => qa_html(qa_opt('ajax_bookmark_popup_notice_text')),
 				'tags' => 'NAME="ajax_bookmark_popup_notice_text"',
 			);		   
-		  
+
 				
 			$fields[] = array(
-				'label' => 'Unbookmark hover text',
+				'label' => 'Unbookmark notice text',
 				'type' => 'text',
-				'value' => qa_html(qa_opt('bookmarks_plugin_unbookmark')),
-				'tags' => 'NAME="bookmarks_plugin_unbookmark"',
+				'value' => qa_html(qa_opt('ajax_bookmark_popup_un_notice_text')),
+				'tags' => 'NAME="ajax_bookmark_popup_un_notice_text"',
 			);		   
-		  
+		  		  		  
 
 			return array(		   
 				'ok' => ($ok && !isset($error)) ? $ok : null,

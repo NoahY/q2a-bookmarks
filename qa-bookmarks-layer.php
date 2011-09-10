@@ -40,7 +40,7 @@
 					.unbookmark {
 						background-image:url('.QA_HTML_THEME_LAYER_URLTOROOT.'unbookmark.png);
 					}
-					.ajax-bookmark-popup {
+					#ajax-bookmark-popup {
 						left: 0;
 						right: 0;
 						top: 0;
@@ -65,8 +65,10 @@
 				</style>');
 				$this->output_raw("
 				<script>
-					function ajaxBookmarkConfirm() {
-						jQuery('<div class=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
+					function ajaxBookmarkConfirm(bmd) {
+						jQuery('#ajax-bookmark-popup').remove();
+						if(bmd) jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
+						else jQuery('<div id=\"ajax-bookmark-popup\"><div class=\"ajax-bookmark-popup-text\" onclick=\"this.style.display=\\'none\\';\">".qa_html(qa_opt('ajax_bookmark_popup_un_notice_text'))."</div></div>').insertAfter(jQuery('#bookmark')).fadeIn('fast').delay(5000).fadeOut('slow');
 					}
 					function ajaxBookmark(qid,uid,bmd) {
 						var dataString = 'ajax_bookmark_qid='+qid+'&ajax_bookmark_uid='+uid+'&ajax_bookmarked='+bmd;
@@ -82,7 +84,7 @@
 								}
 								else{
 									jQuery('#bookmark').replaceWith(data);
-									if(!bmd) ajaxBookmarkConfirm();
+									ajaxBookmarkConfirm(bmd==false);
 								}  
 							}
 						});
