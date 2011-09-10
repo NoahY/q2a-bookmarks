@@ -206,7 +206,7 @@
 					
 					$text = (strlen($title) > $length ? substr($title,0,$length).'...' : $title);
 					
-					$output .= '<div class="bookmark-row" id="bookmark-row-'.$idx.'"><div class="bookmark-row-image bookmark" title="'.qa_html(qa_opt('bookmarks_plugin_unbookmark')).'" onclick="ajaxBookmark('.$qid.','.$uid.',true,'.($idx++).')"></div><a href="'.qa_path_html(qa_q_request($qid,$title),NULL,qa_opt('site_url')).'">'.$text.'</a></div>';
+					$output .= '<div class="bookmark-row" id="bookmark-row-'.$idx.'"><div class="bookmark-row-image bookmark" title="'.qa_html(qa_opt('bookmarks_plugin_unbookmark')).'" onclick="ajaxBookmark('.$qid.','.$uid.',true,'.($idx++).')"></div><a href="'.qa_path_html(qa_q_request($qid,$title),NULL,qa_opt('site_url')).'">'.qa_html($text).'</a></div>';
 				}
 				$output.='</div>';
 				$fields['bookmarks'] = array(
