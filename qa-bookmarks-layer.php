@@ -121,7 +121,6 @@
 				else $content['form-bookmarks-list'] = $this->bookmarks_plugin_form();  // this shouldn't happen
 					
 			}
-			qa_error_log($content);
 
 			qa_html_theme_base::main_parts($content);
 
