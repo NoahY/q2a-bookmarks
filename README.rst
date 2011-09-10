@@ -11,6 +11,7 @@ Features
 --------
 - adds bookmark icon to single question view
 - view bookmarks on user profile page
+- unbookmark via question page or user profile page
 - toggle on/off via admin/plugins
 - all text fully customizable via admin/plugins
 
