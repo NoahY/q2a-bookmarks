@@ -204,7 +204,6 @@
 					);
 					
 					$title=$post['title'];
-					$qid=$post['postid'];
 					
 					$length = 60;
 					

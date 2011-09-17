@@ -4,7 +4,7 @@
         Plugin Name: Bookmarks
         Plugin URI: https://github.com/NoahY/q2a-bookmarks
         Plugin Description: Bookmarking
-        Plugin Version: 0.1
+        Plugin Version: 1.0b
         Plugin Date: 2011-09-11
         Plugin Author: NoahY
         Plugin Author URI:                              
