@@ -128,7 +128,7 @@
 
 		function main_parts($content)
 		{
-			if (qa_opt('bookmarks_plugin_enable') && $this->template == 'user') {
+			if (qa_opt('bookmarks_plugin_enable') && $this->template == 'user' && !qa_get('tab')) {
 
 				if($content['q_list']) {  // paranoia
 				
