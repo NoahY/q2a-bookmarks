@@ -288,6 +288,27 @@
 					);
 				}
 			}
+			
+			// badges
+			
+			if(!$bmd) {
+				$var = count(explode(',',$bookmarks));
+				if(qa_opt('badge_active'))
+					$awarded = count(qa_badge_award_check(array('bookmarker','bookworm','bookkeeper'), $var, $uid, NULL, 2)); 
+				$max = qa_db_read_one_value(
+					qa_db_query_sub(
+						'SELECT meta_value FROM ^usermeta WHERE user_id=# AND meta_key=$',
+						$uid, 'max_bookmarks'
+					),true
+				);
+				if(!$max || (int)$max < $var)
+					qa_db_query_sub(
+						'INSERT INTO ^usermeta (user_id,meta_key,meta_value) VALUES (#,$,$) ON DUPLICATE KEY UPDATE meta_value=$',
+						$uid,'max_bookmarks',$var,$var
+					);
+			}
+			
+			
 			$this->bookmark($qid,$uid,($bmd==false));
 		}
 	}
