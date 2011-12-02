@@ -293,7 +293,7 @@
 			
 			if(!$bmd) {
 				$var = count(explode(',',$bookmarks));
-				if(qa_opt('badge_active'))
+				if(qa_opt('badge_active') && qa_opt('badge_custom_badges'))
 					$awarded = count(qa_badge_award_check(array('bookmarker','bookworm','bookkeeper'), $var, $uid, NULL, 2)); 
 				$max = qa_db_read_one_value(
 					qa_db_query_sub(
